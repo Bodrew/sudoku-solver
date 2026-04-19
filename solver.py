@@ -76,7 +76,7 @@ class createGrid:
                 createGrid.boxClassification(self, a, b)
         colors = ['white', 'salmon1', 'white', 'salmon1', 'white', 'salmon1', 'white', 'salmon1', 'white']
         for i in range(len(boxID)):
-            for j in range(len(boxID[a])):
+            for j in range(len(boxID[i])):
                 boxID[i][j].configure(bg=colors[i])
 
     def boxClassification(self, a, b):
@@ -98,9 +98,9 @@ class myTkinter:
 
         rowdim = coldim = 9
         global rowwidth
-        rowwidth = 20
+        rowwidth = 15
         global rowheight
-        rowheight = 4
+        rowheight = 3
 
         labels = []
 
@@ -180,7 +180,6 @@ class myXML:
         Solvable = root[5].text
         uniqueSolution = root[6].text
         pigeonholeDecidable = root[7].text
-
 
         try:
             startStateDict = eval(f'dict({startState})')
@@ -513,11 +512,24 @@ class completeSolver:
         self.timeDelay = timeDelay
         self.intCount = 0
         self.newIntCount = 0
+
+        # Count how many cells are solved
         for a in range(rowNum):
             for b in range(colNum):
-                if len(coordsContent[a][b]) == 1:
+                if len(str(coordsContent[a][b])) == 1:
                     self.intCount += 1
 
+                    global checkNum
+                    checkNum = int(coordsContent[a][b])
+                    completeSolver.stepRow(self, a, b)
+                    completeSolver.stepCol(self, b, a)
+
+                    global boxCheckNum
+                    boxCheckNum = boxContent[a][b]
+                    completeSolver.stepBox(self, a, b)
+
+        # Check each row and column for the presence of a single integer
+        '''
         for row in range(rowNum):
             for col in range(colNum):
                 if len(coordsContent[row][col]) == 1:
@@ -525,17 +537,19 @@ class completeSolver:
                     checkNum = int(coordsContent[row][col][0])
                     completeSolver.stepRow(self, row, col)
                     completeSolver.stepCol(self, col, row)
-
+        
+        # Check each box for the presence of a single integer
         for i in range(len(boxID)):
             for j in range(len(boxID)):
                 if len(boxContent[i][j]) == 1:
                     global boxCheckNum
                     boxCheckNum = boxContent[i][j][0]
                     completeSolver.stepBox(self, i, j)
+        '''
 
         for i in range(rowNum):
             for j in range(colNum):
-                if len(coordsContent[i][j]) == 2:
+                if len(str(coordsContent[i][j])) == 2:
                     self.p1_list1 = coordsContent[i][j]
                     for k in range(rowNum):
                         if coordsContent[i][k] == self.p1_list1 and j != k:
@@ -590,7 +604,9 @@ class completeSolver:
     def stepRow(self, r, c):
         for i in range(len(coordsContent[r])):
             iter = coordsContent[r][i]
-            if len(iter) != 1 and checkNum in iter:
+            if len(str(iter)) != 1 and checkNum in iter:
+                og_bg_ri = coordsID[r][i].cget("background")
+                og_bg_rc = coordsID[r][c].cget("background")
                 displaySteps.insert(1.0, f'Using ({r}, {c}) to remove {checkNum} from ({r}, {i})\n')
                 win.after(int(float(self.timeDelay) * 1000), coordsID[r][c].configure(bg='deep sky blue'))
                 win.update()
@@ -598,13 +614,15 @@ class completeSolver:
                 win.update()
                 iter.remove(checkNum)
                 win.update()
-                coordsID[r][c].configure(bg='white')
-                coordsID[r][i].configure(bg='white', text=iter)
+                coordsID[r][c].configure(bg=og_bg_rc)
+                coordsID[r][i].configure(bg=og_bg_ri, text=iter)
 
     def stepCol(self, c, r):
         for i in range(len(coordsContent[c])):
             iter = coordsContent[i][c]
-            if len(iter) != 1 and checkNum in iter:
+            if len(str(iter)) != 1 and checkNum in iter:
+                og_bg_ic = coordsID[i][c].cget("background")
+                og_bg_rc = coordsID[r][c].cget("background")
                 displaySteps.insert(1.0, f'Using ({r}, {c}) to remove {checkNum} from ({i}, {c})\n')
                 win.after(int(float(self.timeDelay) * 1000), coordsID[r][c].configure(bg='deep sky blue'))
                 win.update()
@@ -612,13 +630,15 @@ class completeSolver:
                 win.update()
                 iter.remove(checkNum)
                 win.update()
-                coordsID[r][c].configure(bg='white')
-                coordsID[i][c].configure(bg='white', text=iter)
+                coordsID[r][c].configure(bg=og_bg_rc)
+                coordsID[i][c].configure(bg=og_bg_ic, text=iter)
 
     def stepBox(self, b, j):
         for box in range(len(boxContent[b])):
             iter = boxContent[b][box]
-            if len(iter) != 1 and boxCheckNum in iter:
+            if len(str(iter)) != 1 and boxCheckNum in iter:
+                og_bg_bj = coordsID[b][j].cget("background")
+                og_bg_bb = coordsID[b][box].cget("background")
                 displaySteps.insert(1.0, f'In Box {b}, using Cell {j} to remove {boxCheckNum} from Cell {box}\n')
                 win.after(int(float(self.timeDelay) * 1000), boxID[b][j].configure(bg='deep sky blue'))
                 win.update()
@@ -626,9 +646,10 @@ class completeSolver:
                 win.update()
                 iter.remove(boxCheckNum)
                 win.update()
-                boxID[b][j].configure(bg='white')
-                boxID[b][box].configure(bg='white', text=iter)
+                boxID[b][j].configure(bg=og_bg_bj)
+                boxID[b][box].configure(bg=og_bg_bb, text=iter)
 
+    '''
     def stepPigeon2(self, r, c, h, x):
         if x == 1:
             for i in range(rowNum):
@@ -696,5 +717,6 @@ class completeSolver:
                         coordsID[c2][r].configure(bg='white')
                         coordsID[c3][r].configure(bg='white')
                         coordsID[i][r].configure(bg='white', text=coordsContent[i][r])
+        '''
 
 myTkinter()

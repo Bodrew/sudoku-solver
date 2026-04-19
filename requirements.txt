@@ -1,3 +1,3 @@
-tkinter
-xml
-argparse
+tkinter >= 6.1
+xml >= 0.4.3
+argparse >= 1.4.0
