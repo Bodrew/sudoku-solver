@@ -48,9 +48,10 @@ class createGrid:
             rowContent = []
             for col in range(0, y):
                 if tuple((row, col)) in keysFromDict:
-                    rowContent.append(startStateDict.get((row,col)))
+                    rowContent.append(str(startStateDict.get((row,col))))
                     one_list = rowContent[col]
 
+                    # Build the cell where number is known
                     frame = tk.Frame(master=win, highlightbackground='black', highlightthickness='1')
                     frame.grid(row=row, column=col)
                     label = tk.Label(master=frame, text=one_list, height=rowheight, width=rowwidth, bg='light green')
@@ -58,9 +59,10 @@ class createGrid:
                     rowID.append(label)
 
                 else:
-                    maxNumList = [i+1 for i in range(maxNum)]
+                    maxNumList = [str(i+1) for i in range(maxNum)]
                     rowContent.append(maxNumList)
 
+                    # Build the cell where number unknown
                     frame = tk.Frame(master=win, highlightbackground='black', highlightthickness='1' )
                     frame.grid(row=row, column=col)
                     label = tk.Label(master=frame, text=maxNumList, height=rowheight, width=rowwidth, bg='white')
@@ -513,14 +515,16 @@ class completeSolver:
         self.intCount = 0
         self.newIntCount = 0
 
-        # Count how many cells are solved
+        # Count how many cells are solved,
+        # Check each row and column for the presence of a single integer
         for a in range(rowNum):
             for b in range(colNum):
+                print(str( type(coordsContent[a][b]) ) + ":[" + str(coordsContent[a][b]) + "]")
                 if len(str(coordsContent[a][b])) == 1:
                     self.intCount += 1
 
                     global checkNum
-                    checkNum = int(coordsContent[a][b])
+                    checkNum = coordsContent[a][b]
                     completeSolver.stepRow(self, a, b)
                     completeSolver.stepCol(self, b, a)
 
@@ -528,7 +532,7 @@ class completeSolver:
                     boxCheckNum = boxContent[a][b]
                     completeSolver.stepBox(self, a, b)
 
-        # Check each row and column for the presence of a single integer
+        
         '''
         for row in range(rowNum):
             for col in range(colNum):

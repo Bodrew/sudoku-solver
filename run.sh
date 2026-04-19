@@ -12,7 +12,7 @@ fi
 cd ./bin
 
 # Install requirements
-./pip install -r ../requirements.txt; 
+#./pip install -r ../requirements.txt; 
 
 # Run main
-python3 ../solver.py --puzzle_name /home/andrew/Documents/repositories/sudoku-solver/sudoku-start-states/9x9-solvable.xml;
+python3 ../solver.py --puzzle_name /home/andrew/Documents/repositories/sudoku-solver/sudoku-start-states/9x9-solvable.xml --solve_on_startup;
