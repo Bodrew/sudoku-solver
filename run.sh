@@ -15,4 +15,4 @@ cd ./bin
 #./pip install -r ../requirements.txt; 
 
 # Run main
-python3 ../solver.py --puzzle_name /home/andrew/Documents/repositories/sudoku-solver/start-states/9x9-solvable.xml --solve_on_startup;
+python3 ../solver.py --puzzle_name /home/andrew/Documents/repositories/sudoku-solver/start-states/3x2-solvable.xml --solve_on_startup;

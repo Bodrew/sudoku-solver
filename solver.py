@@ -199,22 +199,22 @@ class myXML:
 
         createGrid(rowNum, colNum)
 
-        if wellFormed == 'True' or wellFormed == 1:
+        if wellFormed == 'True' or wellFormed == '1':
             wellFormedMessage = 'is well formed, '
         else:
             wellFormedMessage = 'is not well formed, '
 
-        if Solvable == 'True' or Solvable == 1:
+        if Solvable == 'True' or Solvable == '1':
             solvableMessage = 'is solvable, '
         else:
             solvableMessage = 'is not solvable, '
 
-        if uniqueSolution == 'True' or uniqueSolution == 1:
+        if uniqueSolution == 'True' or uniqueSolution == '1':
             uniqueSolutionMessage = 'has a unique solution, '
         else:
             uniqueSolutionMessage = 'does not have a unique solution, '
 
-        if pigeonholeDecidable == 'True' or pigeonholeDecidable == 1:
+        if pigeonholeDecidable == 'True' or pigeonholeDecidable == '1':
             pigeonholeDecidableMessage = 'and is pigeon-hole decidable.'
         else:
             pigeonholeDecidableMessage = 'and is not pigeon-hole decidable.'
