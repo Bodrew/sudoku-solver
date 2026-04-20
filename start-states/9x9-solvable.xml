@@ -15,8 +15,8 @@
         (8, 4): 8, (8, 7): 7, (8, 8): 9
     }
     </startState>
-    <wellFormed>true</wellFormed>
-    <Solvable>true</Solvable>
-    <uniqueSolution>true</uniqueSolution>
-    <pigeonholeDecidable>true</pigeonholeDecidable>
+    <wellFormed>1</wellFormed>
+    <Solvable>1</Solvable>
+    <uniqueSolution>1</uniqueSolution>
+    <pigeonholeDecidable>1</pigeonholeDecidable>
 </root>
